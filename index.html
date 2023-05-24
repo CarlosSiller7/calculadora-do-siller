@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora do Siller</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <link rel="stylesheet" href="./css/estilos.css">
+
+</head>
+
+<body>
+
+        <audio autoplay loop>
+            <source src="./musicas/musica-epica_Ad5QcAQa.mp3" type="audio/mp3">
+        </audio>
+
+    <div class="fundo">
+        <h1>Calculadora do Siller</h1>
+        <div class="calculadora">
+            <h1 id="titulo">Calculadora</h1>
+            <input id="resultado" type="text">
+            <table>
+                <tr>
+                    <td><button class="botao" onclick="clean()">C</button></td>
+                    <td id="back"><button class="botao" onclick="back()"><</button>
+                    </td>
+                    <td><button class="botao" onclick="pressOperator('/')">/</button></td>
+                    <td><button class="botao" onclick="pressOperator('*')">X</button></td>
+                </tr>
+                <tr>
+                    <td id="7"><button class="botao" onclick="pressNumber('7')">7</button></td>
+                    <td><button class="botao" onclick="pressNumber('8')">8</button></td>
+                    <td><button class="botao" onclick="pressNumber('9')">9</button></td>
+                    <td><button class="botao" onclick="pressOperator('-')">-</button></td>
+                </tr>
+                <tr>
+                    <td><button class="botao" onclick="pressNumber('4')">4</button></td>
+                    <td><button class="botao" onclick="pressNumber('5')">5</button></td>
+                    <td><button class="botao" onclick="pressNumber('6')">6</button></td>
+                    <td><button class="botao" onclick="pressOperator('+')">+</button></td>
+                </tr>
+                <tr>
+                    <td><button class="botao" onclick="pressNumber('1')">1</button></td>
+                    <td><button class="botao" onclick="pressNumber('2')">2</button></td>
+                    <td><button class="botao" onclick="pressNumber('3')">3</button></td>
+                    <td rowspan="2"><button class="botao" style="height: 106px;" onclick="calculate()">=</button></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button class="botao" style="width: 106px;" onclick="pressNumber('0')">0</button></td>
+                    <td><button class="botao" onclick="pressOperator('.')">.</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        let display = document.getElementById('resultado');
+        let equation = '';
+
+
+        function pressNumber(number) {
+            equation += number;
+            display.value = equation;
+        }
+        function pressOperator(operator) {
+            console.log(equation)
+            equation += operator;
+            display.value = equation;
+        }
+
+        function calculate() {
+        
+            try {
+                let result = eval(equation);
+                display.value = result;
+                equation = '';
+            } catch (error) {
+                display.value = 'Erro';
+            }
+        }
+        function insert(num) {
+            var numero = document.getElementById('resultado').innerHTML;
+            let result = document.getElementById('resultado').innerHTML = numero + num;
+            console.log('RESULT', result)
+            return result
+        }
+
+        function clean() {
+            document.getElementById('resultado').value = "";
+            equation = '';
+
+        }
+
+        function back() {
+            var resultado = document.getElementById('resultado').value;
+            document.getElementById('resultado').value = resultado.slice(0, resultado.length - 1)
+            equation = equation.slice(0, equation.length - 1)
+        }
+
+        function calcular() {
+            var resultado = document.getElementById('resultado').innerHTML;
+            console.log('RESUL', resultado)
+            if (resultado) {
+                document.getElementById('resultado').innerHTML = eval(resultado);
+            }
+            else {
+                document.getElementById('resultado').innerHTML = "Nada p/ calcular."
+            }
+        }
+
+        function result() {
+
+
+            let inputValue = document.getElementById('resultado').value
+            let result = eval(inputValue)
+
+            if (result) {
+                console.log('RESULT', result)
+                document.getElementById('resultado').value = result
+            }
+        }
+
+        document.addEventListener("keydown", function (event) {
+
+            var tecla = event.key;
+
+            if (!isNaN(tecla) || tecla === '+' || tecla === '=' || tecla === 'Enter' || tecla === "*" || tecla === "/" || tecla === "-" || tecla === "Backspace" || tecla === "Delete") {
+                event.preventDefault()
+                if (!isNaN(tecla)) {
+                    pressNumber(tecla)
+                } else if (tecla === '+' || tecla === '=' || tecla === "*" || tecla === "/" || tecla === "-") {
+                    pressOperator(tecla)
+                } else if (tecla === 'Enter') {
+                    calculate()
+                } else if (tecla === "Backspace" || tecla === "Delete") {
+                    clean()
+                }
+            }
+        })
+    </script>
+</body>
+</html>
